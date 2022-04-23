@@ -13,10 +13,15 @@ INTEGRATED APPROACH”.
 
 ## The key result
 
-The key result of the article is clustering of Russian Arctic cities. An
-interactive plot is below.
+The key result of the article is clustering of Russian Arctic cities.
 
 ![networked representation of settlement groups](images/umap_net_en.png)
+
+An interactive version of this plot is in
+[outputs/plots](outputs/plots). The code to reproduce the analysis is in
+[paper/paper.Rmd](paper/paper.Rmd). Some helper functions are in [R](R).
+
+The analysis code is in
 
 ## Reproducing the analysis
 
