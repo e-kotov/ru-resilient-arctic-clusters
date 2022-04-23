@@ -22,7 +22,7 @@ This repository contains some supplementary materials (code, data and plots) and
 
 The key result of the article is clustering of Russian Arctic cities. An interactive plot is below.
 
-![../images/umap_net_en.png](networked representation of settlement groups)
+![images/umap_net_en.png](networked representation of settlement groups)
 
 ## Reproducing the analysis
 
