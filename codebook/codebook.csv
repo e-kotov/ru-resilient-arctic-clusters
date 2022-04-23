@@ -1,0 +1,20 @@
+var_set,var_id,var_name_short_en,var_name_ru,var_name_short_ru
+economy,ECN_patents,Num. of patents per 10k pop/,"Число патентов, шт./10000 чел.","Число патентов, шт./10 тыс. чел."
+socio-cultural,SOC_RSCI_publ_pcap,Num. of indexed academic publications per 10k pop.,"Число публикаций в РИНЦ, публ./10000 чел.","Число публикаций в РИНЦ, публ./10 тыс. чел."
+governance,AUT_revenues,Share of tax and non-tax income in municipal budget,"Доля собственных налоговых и неналоговых доходов в общих бюджетных доходах, среднее за 3 последних года с доступными данными",Доля налоговых и неналоговых доходов в бюджете
+governance,AUT_spend_pcap,Budget expenses per citizen,"Расходы бюджета на человека (среднее за 3 года 2017-2019гг., тыс.руб.)",Расходы бюджета на жителя
+life support,INF_stock_demand,Central heating over- or under-utilisation,Резерв / Нагрузка,Резерв / Нагрузка инфраструктуры
+ecology,ECO_int_discomf,Universal Thermal Climate Index,Интегральная дискомфортность,Интегральная дискомфортность
+ecology,ECO_gulleys,Gully rate (calculated),Овражность,Овражность
+ecology,ECO_bioprod,Bioproductivity (expert ranking),Биопродуктивность,Биопродуктивность
+life support,BLD_wooden,Share of wooden apartment buildings,доля деревянных МКД от известных,Доля деревянных многоквартирных домов
+life support,INF_transport,Transport accessibility (expert ranking),"Транспортная обеспеченность, баллов",Транспортная обеспеченность
+socio-cultural,SOC_MSP_per_10k_resid,Num. of small and medium firms per 10k pop.,"Число субъектов малого и среднего предпринимательства в расчете на 10 тысяч человек населения, единица",Число МСП на 10 тыс. чел.
+economy,ECN_mining,Dev. of mining and extraction (expert ranking),Уровень развитости добывающей промышленности,Уровень развитости добывающей промышленности
+socio-cultural,SOC_migr_4yr_mean,Share of emigrants,Доля выезжающих (средняя за 2016-2019),Доля выезжающих
+socio-cultural,SOC_nat_auton_pcap,Num. of cultural autonomies per 100k pop.,Национально-культурные автономии и другие национальные объединения на 100 тыс. чел,Национально-культурные автономии на 100 тыс. чел.
+governance,AUT_admin_lev,Administrative level of the settlement,"Адм. Статус, баллов (новые данные от Вари)",Административный уровень
+economy,ECN_hhi_empl_rst,HHI of employment structure,Индекс Херфиндаля-Хиршмана по структруе занятости (за 2019),Индекс Херфиндаля-Хиршмана по структруе занятости
+economy,ECN_innov_share,Share of innovative companies,"Доля инновационных компаний среди всех компаний (по штукам, СПАРК, категории Б. Никитина)",Доля инновационных компаний
+economy,ECN_empl_gov_military_O,Share of workers in public and militrary sectors,Среднесписочная численность работников Раздел O. Государственное управление и обеспечение военной безопасности; социальное обеспечение (с 2017 г. - по ОКВЭД2) в % от общего количества занятых (оба показателя - средние за 3 года 2017-2019),Доля в работников в секторе O (госслужба и военная безопасность)
+ecology,ECO_permafrost,Permafrost level (expert ranking),Уровень вечной мерзлоты,Уровень вечной мерзлоты

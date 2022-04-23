@@ -113,7 +113,7 @@ helper_hists_with_clusters <- function(df, clust, n_col = 3){
     pivot_longer(cols = -matches("Group|Name")) %>%
     ggplot(aes(y = value, x = Group, col = Group, text = Name)) +
     geom_beeswarm(groupOnX = TRUE) +
-    facet_wrap(~name, scales = 'free', ncol = n_col) +
+    facet_wrap(~name, scales = 'free', ncol = n_col ) +
     labs(x = "", y = "") +
     theme_pubclean()
   
@@ -149,7 +149,7 @@ helper_create_city_pairs <- function(city_names, cluster_vector){
 vis_net <- function(netw,
                     cut_off_weight = 20,
                     font_size = 32, width = "2000px", height = "1200px",
-                    legend_font_size = "60px") {
+                    legend_font_size = "60px", physics_on = TRUE) {
   
   legend_edge_colours <- levels(netw %>% activate(edges) %>% pull(color))
   
@@ -159,7 +159,7 @@ vis_net <- function(netw,
            smooth = T) %>% 
     activate(edges) %>%
     filter(weight > cut_off_weight) %>%
-    visIgraph(idToLabel = F, layout = "layout_with_kk", physics = T) %>%
+    visIgraph(idToLabel = F, layout = "layout_with_kk", physics = physics_on) %>%
     visPhysics(enabled = T, maxVelocity = 5, solver = "forceAtlas2Based", timestep = 0.01,
                forceAtlas2Based = list(gravitationalConstant = -1000, centralGravity = 0.001)) %>%
     visNodes(color = list(background = "grey", border = "#5B5B5B", highlight = 'darkblue'), font = list(strokeWidth = 20, strokeColor = "white")) %>%

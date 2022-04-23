@@ -4,7 +4,8 @@ title: "Clustering of Russian Arctic Cities: data, R code
 authors:
 - name: NAMES_AND_AFFILIATIONS_WILL_BE_RELEASED_WHEN_THE_PAPER_IS_ACCEPTED
 output:
-  html_document: 
+  # github_document
+  html_document:
     theme: readable
     toc: yes
     number_sections: yes
@@ -14,6 +15,7 @@ output:
       smooth_scroll: yes
 editor_options:
   chunk_output_type: console
+always_allow_html: true
 ---
 
 
@@ -48,10 +50,21 @@ invisible(lapply(eval(packages_to_load), require, character.only = TRUE))
 
 ## Loading data
 
-Load the data set
+Load the data set and replace the Russian city names with transliterated versions.
 
 ```{r load_data, include=T}
 settlements <- fread(here::here("data", "arctic_settlements_stats.csv"))
+ru_en_names <- fread(here::here("data", "ru_en_names.csv"))
+codebook <- fread(here::here("codebook", "codebook.csv"))
+
+settlements <- settlements %>%
+  rename(Settlement_Name_ru = Settlement_Name) %>% 
+  left_join(y = ru_en_names, by = "Settlement_Name_ru") %>% 
+  relocate(Settlement_Name_en, .before = Settlement_Name_ru) %>% 
+  mutate(Settlement_Name = paste0(Settlement_Name_en, "\n(", Settlement_Name_ru, ")")) %>% 
+  relocate(Settlement_Name, .before = Settlement_Name_en) %>% 
+  dplyr::select(-Settlement_Name_en, -Settlement_Name_ru)
+
 DT::datatable(settlements, options = list(scrollX = TRUE, paging=TRUE))
 ```
 
@@ -131,7 +144,7 @@ netw_plot_path <- here::here("outputs", "plots", "umap_net.html")
 umapgt <- prep_graph(DF = umap_city_pairs_w, cut_off = c(85,90,95) ,
                      colour_scale = c('#DFDFDF', 'lightpink', 'hotpink', 'brown'))
 
-umap_vis <- vis_net(umapgt, cut_off_weight = 1, font_size = 40, width = "100%", height = "100%")
+umap_vis <- vis_net(umapgt, cut_off_weight = 1, font_size = 40, width = "100%", height = "100%", physics_on = FALSE)
 
 visNetwork::visSave(umap_vis, file = netw_plot_path, selfcontained = TRUE)
 umap_vis
@@ -144,25 +157,43 @@ After examining the network representation above with our Arctic experts, we hav
 
 ```{r set_expert_clusters}
 expert_clusters <- fread(here::here("data", "manual_clusters.csv"))
+
+
+expert_clusters <- expert_clusters %>%
+  rename(Settlement_Name_ru = Settlement_Name) %>% 
+  left_join(y = ru_en_names, by = "Settlement_Name_ru") %>% 
+  relocate(Settlement_Name_en, .before = Settlement_Name_ru) %>% 
+  mutate(Settlement_Name = paste0(Settlement_Name_en, "\n(", Settlement_Name_ru, ")")) %>% 
+  relocate(Settlement_Name, .before = Settlement_Name_en) %>% 
+  dplyr::select(-Settlement_Name_en, -Settlement_Name_ru)
+
+
 DT::datatable(expert_clusters, options = list(scrollX = TRUE, paging=TRUE))
 
 settlements_cl <- settlements %>%
   left_join(expert_clusters, by = "Settlement_Name") %>% 
-  relocate(Settlement_Name, umap_gmm_manual, .before = AUT_admin_lev) %>% 
-  rename(Cluster = umap_gmm_manual) %>%
+  relocate(Settlement_Name, Cluster, .before = AUT_admin_lev) %>% 
   as.data.frame()
 
 row.names(settlements_cl) <- settlements_cl$Settlement_Name
 ```
 
+```{r}
+settlements_cl_long_var_names <- copy(settlements_cl)
+names_dt <- data.table(var_id = names(settlements_cl)[ names(settlements_cl) %in% codebook$var_id] )
+names_dt <- merge(names_dt, codebook[ var_id %in% names_dt$var_id, .(var_id, var_name_short_en)], by = "var_id")
+setnames(settlements_cl_long_var_names, old = names_dt$var_id, new = names_dt$var_name_short_en)
+```
+
 We now add these clusters to the original data set and visualise the indicator values for every cluster.
 
 ```{r bee_plot}
-k_bee_plot <- helper_hists_with_clusters(df = settlements_cl %>% select(-Settlement_Name, -Cluster),
-                                         clust = settlements_cl %>% pull(Cluster),
-                                         n_col = 3)
+k_bee_plot <- helper_hists_with_clusters(df = settlements_cl_long_var_names %>% select(-Settlement_Name, -Cluster),
+                                         clust = settlements_cl_long_var_names %>% pull(Cluster),
+                                         n_col = 2)
 k_bee_plot_inter <- ggplotly(k_bee_plot, tooltip = "text", height = 1400)
 htmlwidgets::saveWidget(k_bee_plot_inter, file = here::here("outputs", "plots", "umap_net_groups.html"))
+ggsave(filename = here::here("outputs", "plots", "umap_net_groups.png"), k_bee_plot, width = 10, height = 14, dpi = 400)
 k_bee_plot_inter
 ```
 
