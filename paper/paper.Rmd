@@ -144,7 +144,7 @@ netw_plot_path <- here::here("outputs", "plots", "umap_net.html")
 umapgt <- prep_graph(DF = umap_city_pairs_w, cut_off = c(85,90,95) ,
                      colour_scale = c('#DFDFDF', 'lightpink', 'hotpink', 'brown'))
 
-umap_vis <- vis_net(umapgt, cut_off_weight = 1, font_size = 40, width = "100%", height = "100%", physics_on = FALSE)
+umap_vis <- vis_net(umapgt, cut_off_weight = 1, font_size = 40, width = "100%", height = "100%", physics_on = TRUE)
 
 visNetwork::visSave(umap_vis, file = netw_plot_path, selfcontained = TRUE)
 umap_vis
