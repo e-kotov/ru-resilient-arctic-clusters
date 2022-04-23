@@ -16,7 +16,7 @@ INTEGRATED APPROACH”.
 The key result of the article is clustering of Russian Arctic cities. An
 interactive plot is below.
 
-![images/umap_net_en.png](networked%20representation%20of%20settlement%20groups)
+![networked representation of settlement groups](images/umap_net_en.png)
 
 ## Reproducing the analysis
 
