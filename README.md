@@ -11,6 +11,13 @@ plots) and will be published on GitHub as part of the paper “DIVERSITY
 OF RUSSIAN ARCTIC CITIES IN THE CONTEXT OF RESILIENCE POTENTIAL: AN
 INTEGRATED APPROACH”.
 
+## The key result
+
+The key result of the article is clustering of Russian Arctic cities. An
+interactive plot is below.
+
+![../images/umap_net_en.png](networked%20representation%20of%20settlement%20groups)
+
 ## Reproducing the analysis
 
 If you want to re-run the analysis from scratch:

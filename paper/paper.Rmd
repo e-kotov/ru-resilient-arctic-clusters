@@ -1,0 +1,178 @@
+---
+title: "Clustering of Russian Arctic Cities: data, R code
+  and plots"
+authors:
+- name: NAMES_AND_AFFILIATIONS_WILL_BE_RELEASED_WHEN_THE_PAPER_IS_ACCEPTED
+output:
+  html_document: 
+    theme: readable
+    toc: yes
+    number_sections: yes
+    toc_depth: 5
+    toc_float:
+      collapsed: no
+      smooth_scroll: yes
+editor_options:
+  chunk_output_type: console
+---
+
+
+# Introduction
+
+Author names will be added after peer-review.
+
+All code is visible for reference. Some custom functions are saved in `/R/functions.R`.
+
+## Loading packages
+
+```{r setup, include=T, cache = F, echo=TRUE, message=FALSE, warning=FALSE}
+# pre-install key packages
+if( !"renv" %in% installed.packages()[,'Package'] )  { install.packages("renv") }
+if( !"here" %in% installed.packages()[,'Package'] )  { install.packages("here") }
+
+# install other packages
+source(here::here("R", "functions.R"))
+
+knitr::opts_chunk$set(cache = FALSE)
+
+knitr::opts_chunk$set(echo = TRUE) 
+knitr::opts_chunk$set(message = FALSE)
+knitr::opts_chunk$set(warning = FALSE)
+
+# Set so that long lines in R will be wrapped:
+knitr::opts_chunk$set(tidy.opts=list(width.cutoff=60), tidy=TRUE)
+
+
+invisible(lapply(eval(packages_to_load), require, character.only = TRUE))
+```
+
+## Loading data
+
+Load the data set
+
+```{r load_data, include=T}
+settlements <- fread(here::here("data", "arctic_settlements_stats.csv"))
+DT::datatable(settlements, options = list(scrollX = TRUE, paging=TRUE))
+```
+
+# Data preprocessing
+
+Scale and centre the data before clustering.
+
+```{r prep_for_clustering}
+settlements_scaled <- scale(settlements %>% dplyr::select(-Settlement_Name), center = T, scale = T)
+row.names(settlements_scaled) <- settlements$Settlement_Name
+```
+
+# UMAP + GMM
+
+Here we iterate 1000 times with UMAP dimensionality reduction and cluster the results using GMM with automatic selection of optimal number of clusters. Since 100 runs of UMAP is time consuming, the results are cached. To rerun the analysis, remove the `./outputs/cache/um_gmm_clusters.rds` file.
+
+
+```{r cluster_umaps}
+um_gmm_cache_path <- here::here("outputs", "cache", "um_gmm_clusters.rds")
+
+if( fs::file_exists(um_gmm_cache_path) == FALSE) {
+
+  set.seed(84756)
+  seeds <- sample(1:2^15, 1000)
+
+  plan(multisession, workers = (parallel::detectCores() - 1) )
+  um_resamples <- seeds %>%
+    future_map(~ helper_umap_df(x = dtx_scaled, seed = .x, dims = 2),
+               .progress = T,
+               .options = furrr_options(seed = NULL))
+
+  um_resamples_gmm <- um_resamples %>% future_map(~ helper_gmm_clust(scale(.x), kk = 1:15, seed = 123),
+                                      .options = furrr_options(seed = NULL))
+
+  um_resamples_gmm_clusters <- um_resamples_gmm %>% purrr::map( ~ .x[["clust"]][["classification"]] )
+  saveRDS(um_resamples_gmm_clusters, um_gmm_cache_path)
+  
+} else {
+  
+  um_resamples_gmm_clusters <- readRDS(um_gmm_cache_path)
+
+}
+```
+
+# Transform data into network structure
+
+We find all pairs of cities that fell into the same cluster. Every settlement is a node, every edge between settlements is evidence of them being part of the same cluster. The edge weight is the count of how many times (out of 1000 reruns of UMAP + GMM) a pair of settlements belonged to the same cluster.
+
+```{r um_pre_graph, include=TRUE}
+umap_city_pairs_w <- um_resamples_gmm_clusters %>%
+  purrr::map( ~ helper_create_city_pairs(city_names = rownames(settlements_scaled), .x) ) %>% 
+  rbindlist(.) %>% 
+  .[ , .(from = V1, to = V2), ] %>% 
+  .[ , .(weight = as.numeric(.N)), by = .(from, to)]
+
+DT::datatable(umap_city_pairs_w, options = list(scrollX = TRUE, paging=TRUE))
+```
+
+As we can see in the histogram below, there is a significant number of settlements that were never grouped in the same cluster despite certain randomness in UMAP dimensionality reduction followed by the GMM clustering. We can also observe a set of settlement pairs that almost always ended up in the same cluster in over 90% of reruns of UMAP + GMM, which means we can be confident that those settlements do have similar characteristics.
+
+```{r graph_hist}
+umap_city_pairs_w %>%
+  ggplot(aes(x = weight)) +
+  geom_histogram(binwidth = 10) +
+  labs(title = "Number of times\na pair of settlements\nbelonged to the same cluster",
+       x = "Times in the same cluster") +
+  theme_pubclean()
+```
+
+# Visualise the network-based groups
+
+Here we visualise the clustering results using a network representation. The weight of the edges shows how confident we are that a pair of settlements is similar in terms of their resiliency indicators.
+
+```{r network_vis}
+netw_plot_path <- here::here("outputs", "plots", "umap_net.html")
+
+umapgt <- prep_graph(DF = umap_city_pairs_w, cut_off = c(85,90,95) ,
+                     colour_scale = c('#DFDFDF', 'lightpink', 'hotpink', 'brown'))
+
+umap_vis <- vis_net(umapgt, cut_off_weight = 1, font_size = 40, width = "100%", height = "100%")
+
+visNetwork::visSave(umap_vis, file = netw_plot_path, selfcontained = TRUE)
+umap_vis
+```
+
+
+# Set the clusters and show the indicators
+
+After examining the network representation above with our Arctic experts, we have settled on a cluster that was manually assigned to each settlement.
+
+```{r set_expert_clusters}
+expert_clusters <- fread(here::here("data", "manual_clusters.csv"))
+DT::datatable(expert_clusters, options = list(scrollX = TRUE, paging=TRUE))
+
+settlements_cl <- settlements %>%
+  left_join(expert_clusters, by = "Settlement_Name") %>% 
+  relocate(Settlement_Name, umap_gmm_manual, .before = AUT_admin_lev) %>% 
+  rename(Cluster = umap_gmm_manual) %>%
+  as.data.frame()
+
+row.names(settlements_cl) <- settlements_cl$Settlement_Name
+```
+
+We now add these clusters to the original data set and visualise the indicator values for every cluster.
+
+```{r bee_plot}
+k_bee_plot <- helper_hists_with_clusters(df = settlements_cl %>% select(-Settlement_Name, -Cluster),
+                                         clust = settlements_cl %>% pull(Cluster),
+                                         n_col = 3)
+k_bee_plot_inter <- ggplotly(k_bee_plot, tooltip = "text", height = 1400)
+htmlwidgets::saveWidget(k_bee_plot_inter, file = here::here("outputs", "plots", "umap_net_groups.html"))
+k_bee_plot_inter
+```
+
+
+
+
+
+
+
+
+
+
+
