@@ -1,0 +1,40 @@
+---
+output: github_document
+---
+
+<!-- README.md is generated from README.Rmd. Please edit that file -->
+
+```{r, include = FALSE}
+knitr::opts_chunk$set(
+  collapse = TRUE,
+  comment = "#>"
+)
+```
+
+# ru-resilient-arctic-clusters
+
+<!-- badges: start -->
+<!-- badges: end -->
+
+This repository contains some supplementary materials (code, data and plots) and will be published on GitHub as part of the paper "DIVERSITY OF RUSSIAN ARCTIC CITIES IN THE CONTEXT OF RESILIENCE POTENTIAL: AN INTEGRATED APPROACH".
+
+## Reproducing the analysis
+
+If you want to re-run the analysis from scratch:
+
+1. Install R https://cran.r-project.org and RStudio https://www.rstudio.com.
+
+2. Extract all the files to a folder.
+
+3. Open the `ru-resilient-arctic-clusters.Rproj` file in RStudio.
+
+4. Open the `paper/paper.Rmd` file within RStudio file browser.
+
+5. Press Knit button at the top to run the analysis. All packages should install automatically, the analysis should run and you should get an regenerated `paper/paper.html` file.
+
+## ABSTRACT
+
+will be added once the paper is published
+
+## KEY WORDS
+Arctic, resilience, sustainable development, Arctic cities, socio-ecological systems, resilience potential, Arctic uniqueness
