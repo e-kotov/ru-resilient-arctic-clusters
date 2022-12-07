@@ -7,9 +7,25 @@
 <!-- badges: end -->
 
 This repository contains some supplementary materials (code, data and
-plots) and will be published on GitHub as part of the paper “DIVERSITY
-OF RUSSIAN ARCTIC CITIES IN THE CONTEXT OF RESILIENCE POTENTIAL: AN
-INTEGRATED APPROACH”.
+plots) for the paper “Resilience Potential of the Russian Arctic
+Cities”.
+
+Zamyatina, N., Kotov, E., Goncharov, R., Burceva, A., Grebenec, V.,
+Medvedkov, A., Molodcova, V., Kljueva, V., Kulchitsky, Y., Mironova, B.,
+Nikitin, B., Pilyasov, A., Polyachenko, A., Poturaeva, A., Streletskiy,
+D., & Shamalo, I. (2022). Resilience Potential of the Russian Arctic
+Cities. Vestnik Moskovskogo Universiteta. Seria 5, Geografia (In
+Russian), 5, 52–65. URL:
+<a href="https://vestnik5.geogr.msu.ru/jour/article/view/1065"
+target="_blank">https://vestnik5.geogr.msu.ru/jour/article/view/1065</a>
+
+Current data and code:
+[![DOI](https://zenodo.org/badge/484737615.svg)](https://zenodo.org/badge/latestdoi/484737615)
+
+<!-- github_id received via accessing https://api.github.com/repos/e-kotov/ru-covid19-regional-excess-mortality -->
+
+You can see the published html version of the paper supplements at
+<https://www.ekotov.pro/ru-resilient-arctic-clusters/>.
 
 ## The key result
 
@@ -22,8 +38,6 @@ An interactive version of this plot is in
 [paper/paper.Rmd](paper/paper.Rmd) and online at
 <https://e-kotov.github.io/ru-resilient-arctic-clusters/> . Some helper
 functions are in [R](R).
-
-The analysis code is in
 
 ## Reproducing the analysis
 
@@ -44,9 +58,28 @@ If you want to re-run the analysis from scratch:
 
 ## ABSTRACT
 
-will be added once the paper is published
+Resilience is the ability of urban systems to overcome natural or
+manufactured crises. It is regarded as a complementary concept to that
+of sustainable development. Application of the concept of resilience is
+particularly relevant in the Arctic, where both natural and economic
+systems are particularly vulnerable. The article analyzes 19
+quantitative indicators for 27 Arctic settlements of the Russian
+Federation according to the following subsystems: economic
+specialization, life support and communal services, socio-cultural,
+natural-ecological, administrative and managerial. Cluster analysis
+identified 7 groups of cities that consistently demonstrate similarity
+under different versions of analysis. Overcoming crises in a city
+development requires simultaneous resilience in different subsystems of
+urban development; the weakness of any of these subsystems could cause
+the collapse of the entire system. Therefore, the assessment of
+resilience requires an integrated approach.
 
 ## KEY WORDS
 
-Arctic, resilience, sustainable development, Arctic cities,
-socio-ecological systems, resilience potential, Arctic uniqueness
+sustainable development, Arctic cities, socio-ecological systems
+
+## FUNDING
+
+The reported study was funded by RFBR according to the research project
+№ 18-05-60088 “Urban Arctic resilience in the context of climate change
+and socio-economic transformation”.

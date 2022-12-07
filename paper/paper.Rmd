@@ -2,7 +2,7 @@
 title: "Clustering of Russian Arctic Cities: data, R code
   and plots"
 authors:
-- name: NAMES_AND_AFFILIATIONS_WILL_BE_RELEASED_WHEN_THE_PAPER_IS_ACCEPTED
+- name: Zamyatina, N., Kotov, E., Goncharov, R., Burceva, A., Grebenec, V., Medvedkov, A., Molodcova, V., Kljueva, V., Kulchitsky, Y., Mironova, B., Nikitin, B., Pilyasov, A., Polyachenko, A., Poturaeva, A., Streletskiy, D., & Shamalo, I.
 output:
   # github_document
   html_document:
@@ -21,9 +21,20 @@ always_allow_html: true
 
 # Introduction
 
-Author names will be added after peer-review.
+Zamyatina, N., Kotov, E., Goncharov, R., Burceva, A., Grebenec, V., Medvedkov, A., Molodcova, V., Kljueva, V., Kulchitsky, Y., Mironova, B., Nikitin, B., Pilyasov, A., Polyachenko, A., Poturaeva, A., Streletskiy, D., & Shamalo, I. (2022). Resilience Potential of the Russian Arctic Cities. Vestnik Moskovskogo Universiteta. Seria 5, Geografia (In Russian), 5, 52–65. URL: [https://vestnik5.geogr.msu.ru/jour/article/view/1065](https://vestnik5.geogr.msu.ru/jour/article/view/1065){target='_blank'}
 
+**Abstract**
+
+Resilience is the ability of urban systems to overcome natural or manufactured crises. It is regarded as a complementary concept to that of sustainable development. Application of the concept of resilience is particularly relevant in the Arctic, where both natural and economic systems are particularly vulnerable. The article analyzes 19 quantitative indicators for 27 Arctic settlements of the Russian Federation according to the following subsystems: economic specialization, life support and communal services, socio-cultural, natural-ecological, administrative and managerial. Cluster analysis identified 7 groups of cities that consistently demonstrate similarity under different versions of analysis. Overcoming crises in a city development requires simultaneous resilience in different subsystems of urban development; the weakness of any of these subsystems could cause the collapse of the entire system. Therefore, the assessment of resilience requires an integrated approach.
+
+
+**Key words:**
+sustainable development, Arctic cities, socio-ecological systems
+
+**Note:**
 All code is visible for reference. Some custom functions are saved in `/R/functions.R`.
+Repository: [https://github.com/e-kotov/ru-resilient-arctic-clusters](https://github.com/e-kotov/ru-resilient-arctic-clusters)
+
 
 ## Loading packages
 
