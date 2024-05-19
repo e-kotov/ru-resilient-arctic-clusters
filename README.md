@@ -31,7 +31,12 @@ You can see the published html version of the paper supplements at
 
 The key result of the article is clustering of Russian Arctic cities.
 
-![networked representation of settlement groups](images/umap_net_en.png)
+<figure>
+<img src="images/umap_net_en.png"
+alt="networked representation of settlement groups" />
+<figcaption aria-hidden="true">networked representation of settlement
+groups</figcaption>
+</figure>
 
 An interactive version of this plot is in
 [outputs/plots](outputs/plots). The code to reproduce the analysis is in
@@ -81,5 +86,5 @@ sustainable development, Arctic cities, socio-ecological systems
 ## FUNDING
 
 The reported study was funded by RFBR according to the research project
-№ 18-05-60088 “Urban Arctic resilience in the context of climate change
+\# 18-05-60088 “Urban Arctic resilience in the context of climate change
 and socio-economic transformation”.
